@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\URL;
+use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -47,6 +48,7 @@ class AuthenticationEndpointsTest extends TestCase
         ]);
 
         $this->assertDatabaseCount('personal_access_tokens', 1);
+        $this->assertNotNull(PersonalAccessToken::query()->first()?->expires_at);
 
         Notification::assertSentTo(
             User::query()->where('email', 'test@example.com')->firstOrFail(),
@@ -72,6 +74,7 @@ class AuthenticationEndpointsTest extends TestCase
             ->assertJsonPath('data.user.email', $user->email);
 
         $this->assertDatabaseCount('personal_access_tokens', 1);
+        $this->assertNotNull(PersonalAccessToken::query()->first()?->expires_at);
     }
 
     public function test_me_returns_the_authenticated_user(): void

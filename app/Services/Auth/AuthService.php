@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
@@ -110,7 +111,16 @@ final class AuthService
 
     private function issueTokenPayload(User $user, ?string $deviceName = null): array
     {
-        $token = $user->createToken($deviceName ?: 'api-token')->plainTextToken;
+        $expirationMinutes = config('sanctum.expiration');
+        $expiresAt = is_numeric($expirationMinutes)
+            ? Carbon::now()->addMinutes((int) $expirationMinutes)
+            : null;
+
+        $token = $user->createToken(
+            $deviceName ?: 'api-token',
+            ['*'],
+            $expiresAt,
+        )->plainTextToken;
 
         return [
             'user' => $user,

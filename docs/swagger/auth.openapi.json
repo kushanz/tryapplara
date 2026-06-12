@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "TryApp Authentication API",
-    "description": "OpenAPI specification for the Laravel Sanctum authentication endpoints used by TryApp.",
+    "description": "OpenAPI specification for the Laravel Sanctum authentication endpoints used by TryApp. Bearer tokens expire after 7 days by default unless the environment configuration changes.",
     "version": "1.0.0"
   },
   "servers": [

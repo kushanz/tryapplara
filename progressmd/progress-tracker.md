@@ -26,6 +26,7 @@ This file tracks completed work, active follow-ups, and pending tasks for the La
 - Verified the authentication test suite passes with PHP 8.3
 - Generated a Postman collection for authentication endpoint testing
 - Generated Swagger/OpenAPI documentation for authentication endpoints
+- Added a configurable Sanctum token expiry policy with a 7-day default
 
 ## Pending Tasks
 
