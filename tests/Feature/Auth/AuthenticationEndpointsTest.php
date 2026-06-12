@@ -71,7 +71,8 @@ class AuthenticationEndpointsTest extends TestCase
         $response
             ->assertOk()
             ->assertJsonPath('success', true)
-            ->assertJsonPath('data.user.email', $user->email);
+            ->assertJsonPath('data.token', fn ($token) => is_string($token) && $token !== '')
+            ->assertJsonMissingPath('data.user');
 
         $this->assertDatabaseCount('personal_access_tokens', 1);
         $this->assertNotNull(PersonalAccessToken::query()->first()?->expires_at);

@@ -27,6 +27,8 @@ This file tracks completed work, active follow-ups, and pending tasks for the La
 - Generated a Postman collection for authentication endpoint testing
 - Generated Swagger/OpenAPI documentation for authentication endpoints
 - Added a configurable Sanctum token expiry policy with a 7-day default
+- Updated the Sanctum token expiry default from 7 days to 1 hour
+- Updated login response to return token only and use `/api/me` for authenticated user data
 
 ## Pending Tasks
 

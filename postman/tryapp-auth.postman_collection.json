@@ -145,7 +145,7 @@
                 "login"
               ]
             },
-            "description": "Authenticates the user and stores the returned Sanctum token into `bearer_token`."
+            "description": "Authenticates the user and stores the returned Sanctum token into `bearer_token`. Use `/api/me` to fetch the logged-in user profile."
           },
           "response": []
         },

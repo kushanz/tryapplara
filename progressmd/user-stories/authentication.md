@@ -48,4 +48,5 @@ So that I can securely access protected parts of the application.
 - Protected endpoints use `auth:sanctum`
 - API responses follow the shared success/error response structure
 - Swagger/OpenAPI documentation is available in `docs/swagger/auth.openapi.json`
-- API bearer tokens expire after `7 days` by default through `SANCTUM_TOKEN_EXPIRATION=10080`
+- API bearer tokens expire after `1 hour` by default through `SANCTUM_TOKEN_EXPIRATION=60`
+- `POST /api/login` returns only the token payload; user profile data is fetched through `GET /api/me`
