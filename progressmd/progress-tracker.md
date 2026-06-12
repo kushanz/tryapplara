@@ -4,7 +4,7 @@ This file tracks completed work, active follow-ups, and pending tasks for the La
 
 ## Status Summary
 
-- Project state: Initial documentation setup
+- Project state: Authentication module implemented
 - Architecture reference source: `laravel-api-backend-docs`
 - Tracking mode: Active
 
@@ -16,11 +16,21 @@ This file tracks completed work, active follow-ups, and pending tasks for the La
 - Added `user-stories.md` for future story capture
 - Added `progress-tracker.md` for completed and pending task tracking
 - Linked the new markdown structure to the architecture docs in `laravel-api-backend-docs`
+- Created a separate authentication user story file
+- Installed Laravel Sanctum as the authentication package
+- Added Sanctum-based authentication API endpoints
+- Added request validation, action/service layers, and user resource responses
+- Added personal access token table migration
+- Ran the authentication migration against the local development database
+- Added focused feature tests for authentication endpoints
+- Verified the authentication test suite passes with PHP 8.3
+- Generated a Postman collection for authentication endpoint testing
+- Generated Swagger/OpenAPI documentation for authentication endpoints
 
 ## Pending Tasks
 
-- Begin feature planning based on the documented architecture
-- Add the first real user stories when feature requirements are started
+- Review email delivery configuration for password reset and verification flows
+- Decide whether future APIs should move under versioned paths such as `/api/v1`
 - Keep this file updated after each completed development task
 
 ## Update Rule

@@ -1,28 +1,14 @@
-# User Stories
+# User Stories Index
 
-This file stores feature stories and user flows discovered during development.
+This file is the index for separate user story markdown files.
 
 ## Rules
 
-- Add a new story whenever a task introduces a new user-facing flow, admin flow, or system behavior requirement
+- Keep each major feature area in its own markdown file
+- Add a new file when a new major module starts
 - Keep stories concise and implementation-neutral
 - Reference related architecture decisions when relevant
 
-## Template
+## Story Files
 
-```md
-### US-XXX: Story title
-
-As a [type of user],
-I want [goal],
-So that [benefit].
-
-Notes:
-- API/feature scope:
-- Related modules:
-- Related architecture docs:
-```
-
-## Current Stories
-
-No user stories recorded yet.
+- Authentication: [`user-stories/authentication.md`](./user-stories/authentication.md)
