@@ -469,6 +469,15 @@
             "type": "string",
             "example": "Test User"
           },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "manager",
+              "customer"
+            ],
+            "example": "customer"
+          },
           "email": {
             "type": "string",
             "format": "email",

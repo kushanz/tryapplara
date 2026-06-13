@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -34,6 +35,7 @@ class AuthenticationEndpointsTest extends TestCase
             ->assertCreated()
             ->assertJsonPath('success', true)
             ->assertJsonPath('data.user.email', 'test@example.com')
+            ->assertJsonPath('data.user.role', UserRole::Customer->value)
             ->assertJsonStructure([
                 'success',
                 'message',
@@ -45,10 +47,14 @@ class AuthenticationEndpointsTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => 'test@example.com',
+            'role' => UserRole::Customer->value,
         ]);
 
+        $token = PersonalAccessToken::query()->first();
+
         $this->assertDatabaseCount('personal_access_tokens', 1);
-        $this->assertNotNull(PersonalAccessToken::query()->first()?->expires_at);
+        $this->assertNotNull($token?->expires_at);
+        $this->assertSame([], $token?->abilities ?? []);
 
         Notification::assertSentTo(
             User::query()->where('email', 'test@example.com')->firstOrFail(),
@@ -58,7 +64,7 @@ class AuthenticationEndpointsTest extends TestCase
 
     public function test_login_returns_a_token_for_valid_credentials(): void
     {
-        $user = User::factory()->create([
+        $user = User::factory()->manager()->create([
             'password' => 'Password!123',
         ]);
 
@@ -74,8 +80,11 @@ class AuthenticationEndpointsTest extends TestCase
             ->assertJsonPath('data.token', fn ($token) => is_string($token) && $token !== '')
             ->assertJsonMissingPath('data.user');
 
+        $token = PersonalAccessToken::query()->first();
+
         $this->assertDatabaseCount('personal_access_tokens', 1);
-        $this->assertNotNull(PersonalAccessToken::query()->first()?->expires_at);
+        $this->assertNotNull($token?->expires_at);
+        $this->assertSame(['users:read'], $token?->abilities ?? []);
     }
 
     public function test_me_returns_the_authenticated_user(): void
@@ -86,7 +95,25 @@ class AuthenticationEndpointsTest extends TestCase
 
         $this->getJson('/api/me')
             ->assertOk()
-            ->assertJsonPath('data.user.email', $user->email);
+            ->assertJsonPath('data.user.email', $user->email)
+            ->assertJsonPath('data.user.role', UserRole::Customer->value);
+    }
+
+    public function test_admin_login_receives_admin_token_abilities(): void
+    {
+        $user = User::factory()->admin()->create([
+            'password' => 'Password!123',
+        ]);
+
+        $this->postJson('/api/login', [
+            'email' => $user->email,
+            'password' => 'Password!123',
+            'device_name' => 'phpunit',
+        ])->assertOk();
+
+        $token = PersonalAccessToken::query()->latest('id')->first();
+
+        $this->assertSame(['users:read', 'users:update'], $token?->abilities ?? []);
     }
 
     public function test_logout_deletes_the_current_access_token(): void

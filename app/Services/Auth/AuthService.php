@@ -2,6 +2,7 @@
 
 namespace App\Services\Auth;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\PasswordReset;
@@ -20,6 +21,7 @@ final class AuthService
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
+            'role' => UserRole::Customer,
         ]);
 
         $user->sendEmailVerificationNotification();
@@ -118,7 +120,7 @@ final class AuthService
 
         $token = $user->createToken(
             $deviceName ?: 'api-token',
-            ['*'],
+            $user->tokenAbilities(),
             $expiresAt,
         )->plainTextToken;
 

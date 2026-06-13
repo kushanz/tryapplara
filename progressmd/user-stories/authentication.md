@@ -50,3 +50,5 @@ So that I can securely access protected parts of the application.
 - Swagger/OpenAPI documentation is available in `docs/swagger/auth.openapi.json`
 - API bearer tokens expire after `1 hour` by default through `SANCTUM_TOKEN_EXPIRATION=60`
 - `POST /api/login` returns only the token payload; user profile data is fetched through `GET /api/me`
+- User roles are stored in `users.role` with `admin`, `manager`, and `customer`
+- Sanctum token abilities are issued from the user role, such as `users:read` and `users:update`
