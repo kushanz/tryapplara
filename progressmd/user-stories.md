@@ -12,3 +12,4 @@ This file is the index for separate user story markdown files.
 ## Story Files
 
 - Authentication: [`user-stories/authentication.md`](./user-stories/authentication.md)
+- Users management: [`user-stories/users-management.md`](./user-stories/users-management.md)

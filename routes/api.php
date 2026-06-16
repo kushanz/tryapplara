@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
+use App\Http\Controllers\Api\Users\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('throttle:login')->group(function () {
@@ -30,4 +31,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [LogoutController::class, 'store']);
     Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:verification-notification');
+    Route::apiResource('users', UserController::class);
 });
